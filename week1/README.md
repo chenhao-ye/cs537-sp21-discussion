@@ -207,7 +207,7 @@ Sanitizers could be a life-saver, not just in a pandemic, but also in programmin
 
 To detect memory leak, use `-fsanitize=address`:
 
-```
+```console
 $ gcc -fsanitize=address -o leak leak.c
 $ ./leak
 
@@ -230,7 +230,7 @@ Note that compilation with sanitizer flags could significantly slow down your co
 
 `-fsanitize=address` could actually be helpful in many memory-related bugs, for example, illegal memory access:
 
-```
+```console
 $ gcc -fsanitize=address -o buf_overflow buf_overflow.c
 $ ./buf_overflow
 0
@@ -292,7 +292,7 @@ Shadow byte legend (one shadow byte represents 8 application bytes):
 
 Valgrind could also be helpful for a memory leak. Different from sanitizers, valgrind does not require special compilation command.
 
-```
+```console
 $ gcc -o leak leak.c
 $ valgrind ./leak
 ==38337== Memcheck, a memory error detector
