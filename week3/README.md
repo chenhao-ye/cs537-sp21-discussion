@@ -187,7 +187,7 @@ $ gcc -S usys.S
 // ...
 ```
 
-`.globl open` declare a label `open` for compiler/linker; when someone in the user-space runs `call open`, the linker know which line it shold jump to.
+`.globl getpid` declares a label `getpid` for compiler/linker; when someone in the user-space executes `call getpid`, the linker knows which line it should jump to.
 
 It then moves 11 into register `%eax` and issues an interrupt with an operand 64.
 
@@ -305,7 +305,7 @@ syscall(void)
 
 It gets the syscall number from saved register `%eax`, and uses this number to index the function pointer array `syscalls`.
 
-For example, if `num` is `SYS_getpid`, then `syscalls[num]` gives you the address of function `sys_getpid`. `syscalls[num]()` will then become `sys_getpid()`. The return value is saved into the register `%eax`. This is a xv6 function calling convention that the return value is passed by registers.
+For example, if `num` is `SYS_getpid`, then `syscalls[num]` gives you the address of function `sys_getpid`. `syscalls[num]()` will then become `sys_getpid()`. The return value is saved into the register `%eax`. This is an xv6 function calling convention that the return value is passed by registers.
 
 Notice that, all `sys_xxx()` function takes no argument, but many syscalls do take arguments. Let use `kill` as the example. `syscalls[num]()` will become `sys_kill`, which is defined `sysproc.h`.
 
@@ -321,7 +321,7 @@ sys_kill(void)
 }
 ```
 
-This function is essentially a wrapper than pops the argument and pass it to the real implementation `kill` in the kernel. `argint` is defined in `syscall.c`:
+This function is essentially a wrapper that pops the argument and passes it to the real implementation `kill` in the kernel. `argint` is defined in `syscall.c`:
 
 ```C
 // Fetch the int at addr from the current process.
@@ -344,4 +344,4 @@ argint(int n, int *ip)
 }
 ```
 
-What it does is, first figures out what is the saved stack pointer (`%esp`), then finds the arguments that were pushed to the stack previously. This "pushing arguments to the stack" is the function arguments passing conventions in xv6. This is done by the compilers. Not only syscalls do this, but all the function calls follow this convention.
+What it does is, first figure out what is the saved stack pointer (`%esp`), then find the arguments that were pushed to the stack previously. This "pushing arguments to the stack" is the function arguments passing conventions in xv6. This is done by the compilers. Not only syscalls do this, but all the function calls follow this convention.
