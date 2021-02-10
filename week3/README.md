@@ -54,7 +54,7 @@ mpmain(void)
 }
 ```
 
-The `scheduler()` is a forever-loop that keeps picking the next process to run (defined in `proc.c`:
+The `scheduler()` is a forever-loop that keeps picking the next process to run (defined in `proc.c`):
 
 ```C
 // Per-CPU process scheduler.
