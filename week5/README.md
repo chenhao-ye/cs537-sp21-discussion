@@ -48,25 +48,25 @@ During `fork()`, the new child process will copy `proc.ofile` (i.e. copying the 
 
 ```
 struct proc: parent {
-	+---+
-	| 0 | ------------+---------> [struct file: stdin]
-	+---+             |
-	| 1 | --------------+-------> [struct file: stdout]
-	+---+             | |
-	| 2 | ----------------+-----> [struct file: stderr]
-	+---+             | | |
-	...               | | |
+    +---+
+    | 0 | ------------+---------> [struct file: stdin]
+    +---+             |
+    | 1 | --------------+-------> [struct file: stdout]
+    +---+             | |
+    | 2 | ----------------+-----> [struct file: stderr]
+    +---+             | | |
+    ...               | | |
 }                     | | |
                       | | |
 struct proc: child {  | | |
-	+---+             | | |
-	| 0 | ------------+ | |
-	+---+               | |
-	| 1 | --------------+ |
-	+---+                 |
-	| 2 | ----------------+
-	+---+
-	...
+    +---+             | | |
+    | 0 | ------------+ | |
+    +---+               | |
+    | 1 | --------------+ |
+    +---+                 |
+    | 2 | ----------------+
+    +---+
+    ...
 }
 ```
 
@@ -80,25 +80,25 @@ For example, when handling the shell command `ls > log.txt`, what the file descr
 
 ```
 struct proc: parent {                                      <= `mysh` process
-	+---+
-	| 0 | ------------+---------> [struct file: stdin]
-	+---+             |
-	| 1 | ----------------------> [struct file: stdout]
-	+---+             | 
-	| 2 | ----------------+-----> [struct file: stderr]
-	+---+             |   |
-	...               |   |
+    +---+
+    | 0 | ------------+---------> [struct file: stdin]
+    +---+             |
+    | 1 | ----------------------> [struct file: stdout]
+    +---+             | 
+    | 2 | ----------------+-----> [struct file: stderr]
+    +---+             |   |
+    ...               |   |
 }                     |   |
                       |   |
 struct proc: child {  |   |                                <= `ls` process
-	+---+             |   |
-	| 0 | ------------+   |
-	+---+                 |
-	| 1 | ----------------|-----> [struct file: log.txt]   <= this is a new stdout!
-	+---+                 |
-	| 2 | ----------------+
-	+---+
-	...
+    +---+             |   |
+    | 0 | ------------+   |
+    +---+                 |
+    | 1 | ----------------|-----> [struct file: log.txt]   <= this is a new stdout!
+    +---+                 |
+    | 2 | ----------------+
+    +---+
+    ...
 }
 ```
 
@@ -130,27 +130,27 @@ Here `fileno(stdout)` will give the file descriptor associated with the current 
 
 ```
 struct proc: parent {                                     <= `mysh` process
-	+---+
-	| 0 | ------------+---------> [struct file: stdin]
-	+---+             |
-	| 1 | --------------+-------> [struct file: stdout]
-	+---+             | |
-	| 2 | ----------------+-----> [struct file: stderr]
-	+---+             | | |
-	...               | | |
+    +---+
+    | 0 | ------------+---------> [struct file: stdin]
+    +---+             |
+    | 1 | --------------+-------> [struct file: stdout]
+    +---+             | |
+    | 2 | ----------------+-----> [struct file: stderr]
+    +---+             | | |
+    ...               | | |
 }                     | | |
                       | | |
 struct proc: child {  | | |                               <= child process (before execv "ls")
-	+---+             | | |
-	| 0 | ------------+ | |
-	+---+               | |
-	| 1 | --------------+ |
-	+---+                 |
-	| 2 | ----------------+
-	+---+
-	| 3 | ----------------------> [struct file: log.txt]  <= open a file "log.txt"
-	+---+
-	...
+    +---+             | | |
+    | 0 | ------------+ | |
+    +---+               | |
+    | 1 | --------------+ |
+    +---+                 |
+    | 2 | ----------------+
+    +---+
+    | 3 | ----------------------> [struct file: log.txt]  <= open a file "log.txt"
+    +---+
+    ...
 }
 ```
 
@@ -158,27 +158,27 @@ After executing `[2]`, you should have
 
 ```
 struct proc: parent {                                     <= `mysh` process
-	+---+
-	| 0 | ------------+---------> [struct file: stdin]
-	+---+             |
-	| 1 | ----------------------> [struct file: stdout]
-	+---+             | 
-	| 2 | ----------------+-----> [struct file: stderr]
-	+---+             |   |
-	...               |   |
+    +---+
+    | 0 | ------------+---------> [struct file: stdin]
+    +---+             |
+    | 1 | ----------------------> [struct file: stdout]
+    +---+             | 
+    | 2 | ----------------+-----> [struct file: stderr]
+    +---+             |   |
+    ...               |   |
 }                     |   |
                       |   |
 struct proc: child {  |   |                               <= child process (before execv "ls")
-	+---+             |   |
-	| 0 | ------------+   |
-	+---+                 |
-	| 1 | --------------+ |
-	+---+               | |
-	| 2 | ----------------+
-	+---+               |
-	| 3 | --------------+-------> [struct file: log.txt]
-	+---+
-	...
+    +---+             |   |
+    | 0 | ------------+   |
+    +---+                 |
+    | 1 | --------------+ |
+    +---+               | |
+    | 2 | ----------------+
+    +---+               |
+    | 3 | --------------+-------> [struct file: log.txt]
+    +---+
+    ...
 }
 ```
 
@@ -198,27 +198,27 @@ After we finishing `dup2`, the previous `fd` is no longer useful. We close it at
 
 ```
 struct proc: parent {                                     <= `mysh` process
-	+---+
-	| 0 | ------------+---------> [struct file: stdin]
-	+---+             |
-	| 1 | ----------------------> [struct file: stdout]
-	+---+             | 
-	| 2 | ----------------+-----> [struct file: stderr]
-	+---+             |   |
-	...               |   |
+    +---+
+    | 0 | ------------+---------> [struct file: stdin]
+    +---+             |
+    | 1 | ----------------------> [struct file: stdout]
+    +---+             | 
+    | 2 | ----------------+-----> [struct file: stderr]
+    +---+             |   |
+    ...               |   |
 }                     |   |
                       |   |
 struct proc: child {  |   |                               <= child process (before execv "ls")
-	+---+             |   |
-	| 0 | ------------+   |
-	+---+                 |
-	| 1 | --------------+ |
-	+---+               | |
-	| 2 | ----------------+
-	+---+               |
-	| X |               +-------> [struct file: log.txt]
-	+---+
-	...
+    +---+             |   |
+    | 0 | ------------+   |
+    +---+                 |
+    | 1 | --------------+ |
+    +---+               | |
+    | 2 | ----------------+
+    +---+               |
+    | X |               +-------> [struct file: log.txt]
+    +---+
+    ...
 }
 ```
 
