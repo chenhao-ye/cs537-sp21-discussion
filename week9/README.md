@@ -195,8 +195,8 @@ Denote: `uva` for userspace virtual address; `pa` for physical address; `kva` fo
 For each physical address `pa`, it must have a kernel virtual address `kva` so that the kernel could access it directly. If this memory is given to the user procee, it will also be mapped to another virtual addrss in this process's page table as `uva`.
 
 - `uva` -> `pa`: `walkpgdir()` returns a `pte_t` that contains `pa`
-- `pa` -> `kva`: `V2P()`
-- `kva` -> `pa`: `P2V()`
+- `pa` -> `kva`: `P2V()`
+- `kva` -> `pa`: `V2P()`
 
 ### Never Dereference a Physical Address
 
