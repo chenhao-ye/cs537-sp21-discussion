@@ -22,7 +22,7 @@ Some tips:
 
 - Since the cold page will have the exactly same three bits as an invalid page, you can't tell the difference just by these three bits. You may introduce another valid bit.
 
-- It might be tricky to encrypt the page when it is allocated. It might be difficult to do it in functions like `allocuvm` because the kernel will also call this function to allocate kernel pages, but kernel pages are not supposed to be encrypted. These two functions might be better places to implement this:
+- It might be tricky to encrypt the page when it is allocated. It might be difficult to do it in functions like `allocuvm` because the kernel may access these pages after calling allocuvm, but we don't want it to be decrypted immediately. These two functions (which are actually callers of `allocuvm`) might be better places to implement this:
 
     - `exec.c:exec`: it is the implementation for the syscall `exec`. `exec` will initialize memory and load data/code. Makesure you encrypt the pages after that.
 
@@ -34,7 +34,7 @@ Some tips:
 
 In p6, you will need to implement a clock algorithm to decide which page to encrypt/decrypt. Though it's doable to implement the clock algorithm by a linked list, it might be easier to implement using a ring buffer.
 
-Taking example 2 from project spec. Suppose N = 4. Your clock queue (an array) and clock head (defined as the next process to check) Ïshould look like below:
+Taking example 2 from project spec. Suppose N = 4. Your clock queue (an array) and clock head (defined as the next process to check) should look like below:
 
 ```
 Format: (virtual page number, reference bit)
