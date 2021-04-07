@@ -26,7 +26,7 @@ Some tips:
 
     - `exec.c:exec`: it is the implementation for the syscall `exec`. `exec` will initialize memory and load data/code. Makesure you encrypt the pages after that.
 
-    - `vm.c:growproc`: it is called only for growing user address space, typically when growing the heap by syscall `sbrk`.
+    - `proc.c:growproc`: it is called only for growing user address space, typically when growing the heap by syscall `sbrk`.
 
 - Since all the userspace pages are potential pages to encrypt, you may find some pages are always stay in the hot page states: e.g. stack. Don't feel weird if you see them in your clock queue.
 
