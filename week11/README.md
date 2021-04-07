@@ -22,9 +22,9 @@ Some tips:
 
 - Since the cold page will have the exactly same three bits as an invalid page, you can't tell the difference just by these three bits. You may introduce another valid bit.
 
-- It might be tricky to encrypt the page when it is allocated. It might be difficult to do it in functions like `allocuvm` because the kernel may access these pages after calling allocuvm, but we don't want it to be decrypted immediately. These two functions (which are actually callers of `allocuvm`) might be better places to implement this:
+- It might be tricky to encrypt the page when it is allocated. It might be difficult to do it in functions like `allocuvm` because the kernel may access these pages after calling `allocuvm`, but we don't want it to be decrypted immediately. These two functions (which are actually callers of `allocuvm`) might be better places to implement this:
 
-    - `exec.c:exec`: it is the implementation for the syscall `exec`. `exec` will initialize memory and load data/code. Makesure you encrypt the pages after that.
+    - `exec.c:exec`: it is the implementation for the syscall `exec`. `exec` will initialize memory and load data/code. Make sure you encrypt the pages after that.
 
     - `proc.c:growproc`: it is called only for growing user address space, typically when growing the heap by syscall `sbrk`.
 
