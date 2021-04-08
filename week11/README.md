@@ -20,7 +20,7 @@ The possible state transitions include:
 
 Some tips:
 
-- It is tricky to encrypt the page when it is allocated. It might be difficult to do it in functions like `allocuvm` because the kernel may access these pages after calling `allocuvm`, but we don't want it to be decrypted immediately. These two functions (which are actually callers of `allocuvm`) might be better places to implement this:
+- It is tricky to encrypt the page when it is allocated. It might be difficult to do it in functions like `allocuvm` because the kernel may access/modify these pages after calling `allocuvm`, but we cannot directly operate on encrypted data. These two functions (which are actually callers of `allocuvm`) might be better places to implement this:
 
     - `exec.c:exec`: it is the implementation for the syscall `exec`. `exec` will initialize memory and load data/code. Make sure you encrypt the pages after that.
 
